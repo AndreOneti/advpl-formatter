@@ -1,0 +1,71 @@
+{
+  "name": "advpl-formatter",
+  "displayName": "advpl-formatter",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "AndreOneti",
+  "engines": {
+    "vscode": "^1.6.0"
+  },
+  "categories": [
+    "Formatters"
+  ],
+  "activationEvents": [
+    "onLanguage:advpl"
+  ],
+  "main": "./out/src/extension",
+  "capabilities": {
+    "documentFormattingProvider": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AndreOneti/advpl-formatter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AndreOneti/advpl-formatter/issues"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "advpl",
+        "aliases": [
+          "advpl",
+          "prw"
+        ],
+        "filenamePatterns": [
+          "*.tlpp",
+          "*.prw"
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.advpl-formatter",
+        "title": "advpl Formatter"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "advpl-format configuration",
+      "properties": {
+        "advplformat.effectLanguages": {
+          "type": "array",
+          "default": [
+            "advpl"
+          ],
+          "description": "the trigger effect  on the language"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install && tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.4",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "vscode": "^1.1.36"
+  }
+}
