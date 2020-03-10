@@ -38,12 +38,6 @@
         ]
       }
     ],
-    "commands": [
-      {
-        "command": "extension.advpl-formatter",
-        "title": "advpl Formatter"
-      }
-    ],
     "configuration": {
       "type": "object",
       "title": "advpl-format configuration",
