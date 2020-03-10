@@ -2,7 +2,7 @@
   "name": "advpl-formatter",
   "displayName": "advpl-formatter",
   "description": "",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "AndreOneti",
   "engines": {
     "vscode": "^1.6.0"

@@ -110,4 +110,4 @@ temp/
 
 # End of https://www.gitignore.io/api/node
 
-advpl-formatter-0.0.1.vsix
+*.vsix
