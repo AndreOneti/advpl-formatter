@@ -1,9 +1,10 @@
 {
   "name": "advpl-formatter",
   "displayName": "advpl-formatter",
-  "description": "",
-  "version": "1.0.0",
+  "description": "A simple ADVPL formatter",
+  "version": "1.0.1",
   "publisher": "AndreOneti",
+  "icon": "logo.png",
   "engines": {
     "vscode": "^1.6.0"
   },
