@@ -1,5 +1,6 @@
 'use strict';
 import * as vscode from 'vscode';
+import { whiteSpaceRemove } from "./libs";
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -24,13 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
           if (currentTab < 0) {
             currentTab = 0;
           }
-          if (file[index].toString().trim() !== '') {
-            edit.replace(document.uri, new vscode.Range(index, 0, index, file[index].length),
-              `${' '.repeat(currentTab)}${formattetSring(file[index].toString().trim())}`);
-          }
-          if (file[index].toString().trim() === '') {
-            edit.replace(document.uri, new vscode.Range(index, 0, index, file[index].length), `${file[index].toString().trim()}`);
-          }
+          edit.replace(document.uri, new vscode.Range(index, 0, index, file[index].length),
+            `${whiteSpaceRemove(file[index], currentTab)}`);
           if (RegexBegin.test(file[index])) {
             currentTab += editor.tabSize;
           }
@@ -44,16 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
           }
         }
       }
-    }
-  });
-}
-
-function formattetSring(str) {
-  return str.replace(/([^"]+)|("[^"]+")/g, function ($0, $1, $2) {
-    if ($1) {
-      return $1.replace(/\s{1,}/g, " ");
-    } else {
-      return $2;
     }
   });
 }

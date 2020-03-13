@@ -1,6 +1,7 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 var vscode = require("vscode");
+var libs_1 = require("./libs");
 function activate(context) {
     vscode.languages.registerDocumentFormattingEditProvider('advpl', {
         provideDocumentFormattingEdits: function (document) {
@@ -20,12 +21,7 @@ function activate(context) {
                     if (currentTab < 0) {
                         currentTab = 0;
                     }
-                    if (file[index].toString().trim() !== '') {
-                        edit.replace(document_1.uri, new vscode.Range(index, 0, index, file[index].length), "" + ' '.repeat(currentTab) + formattetSring(file[index].toString().trim()));
-                    }
-                    if (file[index].toString().trim() === '') {
-                        edit.replace(document_1.uri, new vscode.Range(index, 0, index, file[index].length), "" + file[index].toString().trim());
-                    }
+                    edit.replace(document_1.uri, new vscode.Range(index, 0, index, file[index].length), "" + libs_1.whiteSpaceRemove(file[index], currentTab));
                     if (RegexBegin.test(file[index])) {
                         currentTab += editor.tabSize;
                     }
@@ -43,14 +39,4 @@ function activate(context) {
     });
 }
 exports.activate = activate;
-function formattetSring(str) {
-    return str.replace(/([^"]+)|("[^"]+")/g, function ($0, $1, $2) {
-        if ($1) {
-            return $1.replace(/\s{1,}/g, " ");
-        }
-        else {
-            return $2;
-        }
-    });
-}
 //# sourceMappingURL=extension.js.map
