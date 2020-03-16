@@ -4,4 +4,5 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./stringFormatter"));
+__export(require("./regex"));
 //# sourceMappingURL=index.js.map

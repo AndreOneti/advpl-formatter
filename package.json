@@ -2,7 +2,7 @@
   "name": "advpl-formatter",
   "displayName": "ADVPL Formatter",
   "description": "A simple ADVPL formatter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "AndreOneti",
   "icon": "logo.png",
   "engines": {
