@@ -9,48 +9,85 @@ const RegexReturn = /^\s{0,}Return/i;
 const { activeTextEditor } = vscode.window;
 const editor = Number(activeTextEditor.options.tabSize);
 
-var currentTabZize: number = 0;
+const RegexSqlBegin = /^\s{0,}SELECT\s{0,}$|^\s{0,}ORDER\sBY\s{0,}$/i;
+const RegexSqlMiddle = /^\s{0,}FROM\s{0,}|^\s{0,}WHERE|^\s{0,}ORDER\s{0,}BY/i;
+const RegexSqlEnd = /^\s{0,}EndSql/i;
+const RegexIsSql = /^\s{0,}BeginSql/i;
+
+var currentTabSize: number = 0;
+var identationSql: number = 0;
+var isSql: boolean = false;
 var isBlock: number = 0;
 
 export function Regex(line: string): string {
 
-  if (currentTabZize < 0) currentTabZize = 0;
+  if (currentTabSize < 0) currentTabSize = 0;
 
-  if (RegexBegin.test(line)) {
-    let newLine = whiteSpaceRemove(line, currentTabZize);
-    currentTabZize += editor;
-    isBlock += 1;
-    return newLine;
+  if (!isSql) {
+    if (RegexBegin.test(line)) {
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      if (RegexIsSql.test(line)) {
+        isSql = true;
+        identationSql = currentTabSize;
+      }
+      currentTabSize += editor;
+      isBlock += 1;
+      return newLine;
+    }
+
+    if (RegexMiddle.test(line)) {
+      currentTabSize -= editor;
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      currentTabSize += editor;
+      return newLine;
+    }
+
+    if (RegexEnd.test(line)) {
+      currentTabSize -= editor;
+      isBlock -= 1;
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      return newLine;
+    }
   }
 
-  if (RegexMiddle.test(line)) {
-    currentTabZize -= editor;
-    let newLine = whiteSpaceRemove(line, currentTabZize);
-    currentTabZize += editor;
-    return newLine;
-  }
+  if (isSql) {
+    if (RegexSqlBegin.test(line)) {
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      currentTabSize += editor;
+      isBlock += 1;
+      return newLine;
+    }
 
-  if (RegexEnd.test(line)) {
-    currentTabZize -= editor;
-    isBlock -= 1;
-    let newLine = whiteSpaceRemove(line, currentTabZize);
-    return newLine;
+    if (RegexSqlMiddle.test(line)) {
+      currentTabSize -= editor;
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      currentTabSize += editor;
+      return newLine;
+    }
+
+    if (RegexSqlEnd.test(line)) {
+      currentTabSize = identationSql;
+      isSql = false;
+      isBlock -= 1;
+      let newLine = whiteSpaceRemove(line, currentTabSize);
+      return newLine;
+    }
   }
 
   if (RegexReturn.test(line)) {
     if (isBlock <= 1) {
-      currentTabZize -= editor;
+      currentTabSize -= editor;
       isBlock -= 1;
-      let newLine = whiteSpaceRemove(line, currentTabZize);
+      let newLine = whiteSpaceRemove(line, currentTabSize);
       return newLine;
     }
 
     if (isBlock > 1) {
-      let newLine = whiteSpaceRemove(line, currentTabZize);
+      let newLine = whiteSpaceRemove(line, currentTabSize);
       return newLine;
     }
   }
 
-  let newLine = whiteSpaceRemove(line, currentTabZize);
+  let newLine = whiteSpaceRemove(line, currentTabSize);
   return newLine;
 }
